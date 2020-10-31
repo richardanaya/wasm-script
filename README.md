@@ -35,7 +35,7 @@ Or run stand alone
 - [x] script for loading a WebAssembly module from a compiler
 - [ ] ask to load dependent files by url
 - [ ] cacheing
-- [ ] show compile errors in console
+- [x] show compile errors in console
 
 # Reference Implementation
 
