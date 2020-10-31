@@ -8,10 +8,8 @@ This is a library for bringing your WebAssembly compiler to the web.
 <script src="wasm-script.js"></script>
 <wasm-script id="math" lang="c" compiler="http://yourcompiler.com/c.wasm">
      
-     #include <https://hypatia.com/math.h>
-
      extern int add(int a, int b){
-          return hypatia_add(a,b);
+          return a + b;
      }  
 
 </wasm-script>
