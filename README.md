@@ -27,7 +27,7 @@ console.log(mathModule.add(2,2));
 
 A reference implementation compiler is in progress in Rust for the `wasp` programming language ( a simple lisp-like syntax language ).
 
-```
+```html
 <script src="https://unpkg.com/wasm-script@latest/wasm-script.min.js"></script>
 <wasm-script id="math" lang="wasp" compiler="https://unpkg.com/gh/wasplang/wasp@latest/compiler.wasm">
 (extern add (a,b) (+ a b))
