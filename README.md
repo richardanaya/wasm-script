@@ -113,3 +113,6 @@ for common memory structures.
     })();
 </script>
 ```
+
+* `WasmScript.getCString` - Returns a utf-8 string from position in memory that ends with a zero character.
+* `WasmScript.getUint8ArrayFromMemory` - Returns a Uint8Array from position in memory, starting with a uint32 count followed by the elements.

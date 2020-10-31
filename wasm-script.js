@@ -17,6 +17,15 @@ class WasmScript extends HTMLElement {
         return utf8dec.decode(new Uint8Array(str));
     }
 
+    static getUint8ArrayFromMemory(mem, start) {
+        const data32 = new Uint32Array(mem);
+        const ptr = data32[start / 4];
+        const length = data32[ptr / 4];
+        let b = mem.slice(ptr + 4, ptr + 4 + length);
+        let a = new Uint8Array(b);
+        return a;
+    }
+
     connectedCallback() {
         if (this.innerHTML === undefined) {
             this.setup()
@@ -65,15 +74,6 @@ class WasmScript extends HTMLElement {
             this.codeResolver = resolve;
         });
         return await this.compileCode(this.code, env)
-    }
-
-    getBytesFromMemory(t, mem, start) {
-        const data32 = new Uint32Array(mem);
-        const ptr = data32[start / 4];
-        const length = data32[ptr / 4];
-        let b = mem.slice(ptr + 4, ptr + 4 + length);
-        let a = new t(b);
-        return a;
     }
 
     getStringFromMemory(mem, start) {
@@ -131,8 +131,7 @@ class WasmScript extends HTMLElement {
         // compile code into bytes
         const wasmBytesPosition = compilerModule.instance.exports.compile(positionStart);
 
-        const wasmBytes = this.getBytesFromMemory(
-            Uint8Array,
+        const wasmBytes = WasmScript.getUint8ArrayFromMemory(
             compilerModule.instance.exports.memory.buffer,
             wasmBytesPosition
         );
