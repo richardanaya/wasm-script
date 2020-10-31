@@ -7,7 +7,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cstring = "0.0"
+wasm-compiler = {path="../wasm-compiler",version="0"}
 wasp-core = "0"
 failure = "0.1.5"
 

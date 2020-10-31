@@ -1,64 +1,10 @@
-use std::mem::transmute;
-use cstring::{cstr,CString,cstr_to_string};
-use wasp_core::{parser,compiler};
-use failure::Error;
-
-extern "C" {
-    fn compiler_error(err: CString) -> !;
-    fn compiler_log(err: CString);
-}
-
-pub fn throw_error(err: &str) -> ! {
-    unsafe {
-        compiler_error(cstr(err));
-    };
-}
-
-pub fn log(msg: &str) {
-    unsafe {
-        compiler_log(cstr(msg));
-    }
-}
+use wasm_compiler::process;
+use wasp_core::{compiler, parser};
 
 #[no_mangle]
-pub extern "C" fn malloc(size: i32) -> *mut u8 {
-    let mut buf = Vec::with_capacity(size as usize);
-    let ptr = buf.as_mut_ptr();
-    core::mem::forget(buf);
-    ptr
-}
-
-fn code_as_string(code_ptr: usize) -> String {
-    cstr_to_string(code_ptr as i32)
-}
-
-fn create_compiler_response(wasm_bytes:Vec<u8>) -> Vec<u8> {
-    let l = wasm_bytes.len();
-    let len_bytes: [u8; 4] = unsafe { transmute(l) };
-    let mut v = Vec::<u8>::new();
-    v.extend(len_bytes.iter());
-    v.extend(wasm_bytes.iter());
-    v
-}
-
-fn run(content: &str) -> Result<Vec<u8>, Error> {
-    let app = parser::parse(content)?;
-    compiler::compile(app)
-}
-
-
-#[no_mangle]
-pub extern "C" fn compile(code_ptr: usize) -> usize {
-    let code = code_as_string(code_ptr);
-
-    // we can send info to browser for help
-    log("compiling the code below!!");
-    log(&code);
-
-    let wasm_bytes = match run(&code){
-        Ok(b) => b,
-        Err(e) => throw_error(&e.to_string()),
-    };
-
-    &create_compiler_response(wasm_bytes) as *const _ as usize
+pub fn compile(code_ptr: usize) -> usize {
+    process(code_ptr, |code| {
+        let app = parser::parse(code)?;
+        Ok(compiler::compile(app)?)
+    })
 }
