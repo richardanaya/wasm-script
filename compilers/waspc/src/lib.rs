@@ -30,26 +30,26 @@ fn code_as_string(codePtr: usize) -> String {
     cstr_to_string(codePtr as i32)
 }
 
-fn create_compiler_response(b:Vec<u8>) -> Vec<u8> {
-    let l = b.len();
+fn create_compiler_response(wasm_bytes:Vec<u8>) -> Vec<u8> {
+    let l = wasm_bytes.len();
     let len_bytes: [u8; 4] = unsafe { transmute(l) };
     let mut v = Vec::<u8>::new();
     v.extend(len_bytes.iter());
-    v.extend(b.iter());
+    v.extend(wasm_bytes.iter());
     v
 }
 
 
 #[no_mangle]
-pub extern "C" fn compile(codePtr: usize) -> usize {
-    let code = code_as_string(codePtr);
+pub extern "C" fn compile(code_ptr: usize) -> usize {
+    let code = code_as_string(code_ptr);
 
     // we can send info to browser for help
     log("compiling the code below!!");
     log(&code);
 
     // TODO: write a real compiler
-    let wasmBytes = include_bytes!("./add.wasm").to_vec();
+    let wasm_bytes = include_bytes!("./add.wasm").to_vec();
 
-    &create_compiler_response(wasmBytes) as *const _ as usize
+    &create_compiler_response(wasm_bytes) as *const _ as usize
 }
