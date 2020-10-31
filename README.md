@@ -118,3 +118,19 @@ See the demo [here](https://richardanaya.github.io/wasm-script/examples/hellowor
 
 * `WasmScript.getCString(mem,start)` - Returns a utf-8 string from position in memory that ends with a zero character.
 * `WasmScript.getUint8ArrayFromMemory(mem,start)` - Returns a Uint8Array from position in memory, starting with a uint32 count followed by the elements.
+
+# Building Your Own Compiler
+
+Right now the current contract for building a compiler is very simple and can be implemented in any language that compiles to WebAssembly:
+
+```
+// external function to print a long takes a zero-character ending C string
+extern void compiler_log(uint32 start_cstr)
+// external function to print a error log and throw an exception takes a zero-character ending C string ( this function does not return )
+extern void compiler_error(uint32 start_cstr)
+
+// allocate some bytes of size
+uint32 malloc(uint32 size)
+// compile a code by passing in the start of the code in memory (created using malloc above). and get back a list of bytes (the length as u32, followed by the data)
+uint32 compile(uint32 code_str) uint32
+```
