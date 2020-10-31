@@ -5,6 +5,18 @@ class WasmScript extends HTMLElement {
         this.utf8enc = new TextEncoder("utf-8");
     }
 
+    static getCString(memory,start){
+        let utf8dec = new TextDecoder("utf-8");
+        const data = new Uint8Array(memory.buffer);
+        const str = [];
+        let i = start;
+        while (data[i] !== 0) {
+            str.push(data[i]);
+            i++;
+        }
+        return utf8dec.decode(new Uint8Array(str));
+    }
+
     connectedCallback() {
         if (this.innerHTML === undefined) {
             this.setup()

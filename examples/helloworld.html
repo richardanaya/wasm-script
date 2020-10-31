@@ -10,22 +10,10 @@
 <script>
      // top-level await doesn't exist yet, so we have to do it the lame way
     (async function(){
-        debugger;
         const mathModule = await document.getElementById("math").compile({
             console_log: function(message_start) {
-                let utf8dec = new TextDecoder("utf-8");
-                function fromCString(start) {
-                    const data = new Uint8Array(mathModule.memory.buffer);
-                    const str = [];
-                    let i = start;
-                    while (data[i] !== 0) {
-                    str.push(data[i]);
-                    i++;
-                    }
-                    return utf8dec.decode(new Uint8Array(str));
-                }
-                let _message = fromCString(message_start);
-                document.body.innerHTML += _message;
+                const message = WasmScript.getCString(mathModule.memory,message_start)
+                document.body.innerHTML += message;
               }
         });
         mathModule.main();

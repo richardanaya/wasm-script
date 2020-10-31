@@ -86,7 +86,8 @@ pub fn compile(code_ptr: usize) -> usize {
 
 # Exposing Browser Functionality
 
-Until we have DOM exposure in WebAssembly, we still are in a position we need to provide our own exposures to the browser's functionality. Luckily there's some pretty easy ways to do this.
+Until we have DOM exposure in WebAssembly, we still are in a position we need to provide our own exposures to the browser's functionality. This library has some helper functions
+for common memory structures.
 
 
 ```html
@@ -102,27 +103,13 @@ Until we have DOM exposure in WebAssembly, we still are in a position we need to
 <script>
      // top-level await doesn't exist yet, so we have to do it the lame way
     (async function(){
-        debugger;
         const mathModule = await document.getElementById("math").compile({
             console_log: function(message_start) {
-                let utf8dec = new TextDecoder("utf-8");
-                function fromCString(start) {
-                    const data = new Uint8Array(mathModule.memory.buffer);
-                    const str = [];
-                    let i = start;
-                    while (data[i] !== 0) {
-                    str.push(data[i]);
-                    i++;
-                    }
-                    return utf8dec.decode(new Uint8Array(str));
-                }
-                let _message = fromCString(message_start);
-                document.body.innerHTML += _message;
+                const message = WasmScript.getCString(mathModule.memory,message_start)
+                document.body.innerHTML += message;
               }
         });
         mathModule.main();
     })();
 </script>
 ```
-
-We can also use a library to make this even easier:
