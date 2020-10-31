@@ -44,14 +44,9 @@ where
     T: Fn(&str) -> Result<Vec<u8>, Box<dyn Error>>,
 {
     let code = code_as_string(code_ptr);
-    // we can send info to browser for help
-    log("compiling the code below!!");
-    log(&code);
-
     let wasm_bytes = match processor(&code) {
         Ok(b) => b,
         Err(e) => throw_error(&e.to_string()),
     };
-
     &create_compiler_response(wasm_bytes) as *const _ as usize
 }
