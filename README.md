@@ -5,7 +5,7 @@ This is a library for bringing your WebAssembly compiler to the web.
 # Vision
 
 ```html
-<script src="https://unpkg.com/wasm-script@latest/wasm-script.min.js"></script>
+<script src="wasm-script.js"></script>
 <wasm-script id="math" lang="c" compiler="http://yourcompiler.com/c.wasm">
      
      #include <https://hypatia.com/math.h>
@@ -25,7 +25,7 @@ This is a library for bringing your WebAssembly compiler to the web.
 Or run stand alone
 
 ```html
-<script src="https://unpkg.com/wasm-script@latest/wasm-script.min.js"></script>
+<script src="wasm-script.min.js"></script>
 <wasm-script lang="python" src="tetris.python" execute></wasm-script>
 <!-- use default compilers from the community for certain languages -->
 ```
@@ -36,6 +36,12 @@ Or run stand alone
 - [ ] ask to load dependent files by url
 - [ ] cacheing
 - [x] show compile errors in console
+
+# CDN 
+
+```
+https://cdn.jsdelivr.net/gh/richardanaya/wasm-script@0.0.0/wasm-script.js
+```
 
 # Reference Implementation
 
