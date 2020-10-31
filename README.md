@@ -6,7 +6,7 @@ This is a library for bringing your WebAssembly compiler to the web.
 
 ```html
 <script src="https://unpkg.com/wasm-script@latest/wasm-script.min.js"></script>
-<wasm-script id="math" lang="C" compiler="http://yourcompiler.com/c.wasm">
+<wasm-script id="math" lang="c" compiler="http://yourcompiler.com/c.wasm">
      
      #include <https://hypatia.com/math.h>
 
