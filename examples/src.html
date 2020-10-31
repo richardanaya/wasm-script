@@ -1,0 +1,14 @@
+<script src="../wasm-script.js"></script>
+<wasm-script id="math" lang="wasp" compiler="../compilers/waspc/compiler.wasm" src="hello.w"></wasm-script>
+<script>
+     // top-level await doesn't exist yet, so we have to do it the lame way
+    (async function(){
+        const mathModule = await document.getElementById("math").compile({
+            console_log: function(message_start) {
+                const message = WasmScript.getCString(mathModule.memory,message_start)
+                document.body.innerHTML += message;
+              }
+        });
+        mathModule.main();
+    })();
+</script>

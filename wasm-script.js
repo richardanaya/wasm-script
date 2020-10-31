@@ -63,7 +63,12 @@ class WasmScript extends HTMLElement {
     }
 
     async compile(env) {
-        if (this.innerHTML) {
+        const src = this.getAttribute("src");
+        if(src) {
+            const res = await fetch(src);
+            this.code = await res.text();
+            this.innerHTML = "";
+        } else if (this.innerHTML) {
             this.code = this.innerHTML;
             this.innerHTML = "";
         }
