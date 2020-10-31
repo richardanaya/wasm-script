@@ -52,4 +52,4 @@ A reference implementation compiler is in progress in Rust for the `wasp` progra
 </script>
 ```
 
-See the demo [here](demo.html)
+See the demo [here](https://richardanaya.github.io/wasm-script/demo.html)
