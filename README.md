@@ -19,7 +19,7 @@ console.log(mathModule.add(2,2));
 
 # Features
 
-- [x] script for loading
+- [x] script for loading a WebAssembly module from a compiler
 - [ ] ask to load dependent files by url
 - [ ] cacheing interface
 
