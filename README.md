@@ -5,7 +5,7 @@ Compile WebAssembly in your HTML
 <script src="https://unpkg.com/wasm-script@latest/wasm-script.min.js"></script>
 <wasm-script id="math" lang="C" compiler="http://yourcompiler.com/c.wasm">
 extern int add(int a, int b){
-     
+     return a+b;
 }  
 </wasm-script>
 <script>
