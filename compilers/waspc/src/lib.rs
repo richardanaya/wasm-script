@@ -18,8 +18,6 @@ pub fn log(msg: &str) {
     }
 }
 
-
-
 #[no_mangle]
 pub extern "C" fn malloc(size: i32) -> *mut u8 {
     let mut buf = Vec::with_capacity(size as usize);
@@ -28,18 +26,30 @@ pub extern "C" fn malloc(size: i32) -> *mut u8 {
     ptr
 }
 
-#[no_mangle]
-pub extern "C" fn compile(codePtr: usize) -> usize {
-    let code = cstr_to_string(codePtr as i32);
-    log("compiling!");
-    log(&code);
-    // TODO: write a real compiler
-    let b = include_bytes!("./add.wasm");
+fn code_as_string(codePtr: usize) -> String {
+    cstr_to_string(codePtr as i32)
+}
+
+fn create_compiler_response(b:Vec<u8>) -> Vec<u8> {
     let l = b.len();
     let len_bytes: [u8; 4] = unsafe { transmute(l) };
     let mut v = Vec::<u8>::new();
     v.extend(len_bytes.iter());
     v.extend(b.iter());
-    let p =  &v as *const _ as usize;
-    p  
+    v
+}
+
+
+#[no_mangle]
+pub extern "C" fn compile(codePtr: usize) -> usize {
+    let code = code_as_string(codePtr);
+
+    // we can send info to browser for help
+    log("compiling the code below!!");
+    log(&code);
+
+    // TODO: write a real compiler
+    let wasmBytes = include_bytes!("./add.wasm").to_vec();
+
+    &create_compiler_response(wasmBytes) as *const _ as usize
 }

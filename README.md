@@ -58,3 +58,22 @@ A reference implementation compiler is in progress in Rust for the `wasp` progra
 ```
 
 See the demo [here](https://richardanaya.github.io/wasm-script/demo.html)
+
+What the compiler is doing is fairly simple:
+
+```
+#[no_mangle]
+pub extern "C" fn compile(codePtr: usize) -> usize {
+    let code = code_as_string(codePtr);
+
+    // we can send info to browser for help
+    log("compiling the code below!");
+    log(&code);
+
+    // TODO: write a real compiler
+    let wasmBytes =  ...
+
+    &create_compiler_response(wasmBytes) as *const _ as usize
+}
+
+```
