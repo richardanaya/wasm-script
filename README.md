@@ -39,20 +39,22 @@ Or run stand alone
 
 # Reference Implementation
 
-A reference implementation compiler is in progress in Rust for the `wasp` programming language ( a simple lisp-like syntax language ).
+A reference implementation compiler is in progress in Rust for the [`wasp`](https://github.com/wasplang/wasp) programming language ( a simple lisp-like syntax language ).
 
 ```html
-<script src="wasm-script.min.js"></script>
+<script src="wasm-script.js"></script>
 <wasm-script id="math" lang="wasp" compiler="compilers/waspc/compiler.wasm">
      
-     (extern add (a,b) (+ a b))
+    pub fn secret(){
+        42
+    }
 
 </wasm-script>
 <script>
      // top-level await doesn't exist yet, so we have to do it the lame way
     (async function(){
         const mathModule = await document.getElementById("math").compile();
-        console.log(mathModule.add(2,2));
+        document.body.innerHTML = mathModule.secret(1);
     })();
 </script>
 ```
