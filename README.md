@@ -123,7 +123,7 @@ See the demo [here](https://richardanaya.github.io/wasm-script/examples/hellowor
 
 Right now the current contract for building a compiler is very simple and can be implemented in any language that compiles to WebAssembly:
 
-```c
+```rust
 // external function to print a long takes a zero-character ending C string
 extern void compiler_log(uint32 start_cstr)
 // external function to print a error log and throw an exception takes a zero-character ending
@@ -134,5 +134,5 @@ extern void compiler_error(uint32 start_cstr)
 uint32 malloc(uint32 size)
 // compile a code by passing in the start of the code in memory (created using malloc above). 
 // and get back a list of bytes (the length as u32, followed by the data)
-uint32 compile(uint32 code_str) uint32
+uint32 compile(uint32 code_str)
 ```
