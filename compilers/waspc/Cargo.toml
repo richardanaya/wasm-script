@@ -8,6 +8,8 @@ edition = "2018"
 
 [dependencies]
 cstring = "0.0"
+wasp-core = "0"
+failure = "0.1.5"
 
 [lib]
 crate-type =["cdylib"]

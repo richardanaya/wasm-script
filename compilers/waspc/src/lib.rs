@@ -1,15 +1,17 @@
 use std::mem::transmute;
 use cstring::{cstr,CString,cstr_to_string};
+use wasp_core::{parser,compiler};
+use failure::Error;
 
 extern "C" {
-    fn compiler_error(err: CString);
+    fn compiler_error(err: CString) -> !;
     fn compiler_log(err: CString);
 }
 
-pub fn throw_error(err: &str) {
+pub fn throw_error(err: &str) -> ! {
     unsafe {
         compiler_error(cstr(err));
-    }
+    };
 }
 
 pub fn log(msg: &str) {
@@ -26,8 +28,8 @@ pub extern "C" fn malloc(size: i32) -> *mut u8 {
     ptr
 }
 
-fn code_as_string(codePtr: usize) -> String {
-    cstr_to_string(codePtr as i32)
+fn code_as_string(code_ptr: usize) -> String {
+    cstr_to_string(code_ptr as i32)
 }
 
 fn create_compiler_response(wasm_bytes:Vec<u8>) -> Vec<u8> {
@@ -39,6 +41,11 @@ fn create_compiler_response(wasm_bytes:Vec<u8>) -> Vec<u8> {
     v
 }
 
+fn run(content: &str) -> Result<Vec<u8>, Error> {
+    let app = parser::parse(content)?;
+    compiler::compile(app)
+}
+
 
 #[no_mangle]
 pub extern "C" fn compile(code_ptr: usize) -> usize {
@@ -48,8 +55,10 @@ pub extern "C" fn compile(code_ptr: usize) -> usize {
     log("compiling the code below!!");
     log(&code);
 
-    // TODO: write a real compiler
-    let wasm_bytes = include_bytes!("./add.wasm").to_vec();
+    let wasm_bytes = match run(&code){
+        Ok(b) => b,
+        Err(e) => throw_error(&e.to_string()),
+    };
 
     &create_compiler_response(wasm_bytes) as *const _ as usize
 }
