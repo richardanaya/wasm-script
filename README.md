@@ -38,7 +38,7 @@ A reference implementation compiler is in progress in Rust for the `wasp` progra
 
 ```html
 <script src="wasm-script.min.js"></script>
-<wasm-script id="math" lang="wasp" compiler="https://unpkg.com/gh/wasplang/wasp@latest/compiler.wasm">
+<wasm-script id="math" lang="wasp" compiler="compilers/waspc/compiler.wasm">
      
      (extern add (a,b) (+ a b))
 
@@ -51,3 +51,5 @@ A reference implementation compiler is in progress in Rust for the `wasp` progra
     })();
 </script>
 ```
+
+See the demo [here](demo.html)
