@@ -1,5 +1,5 @@
-<script src="wasm-script.js"></script>
-<wasm-script id="math" lang="wasp" compiler="compilers/waspc/compiler.wasm">
+<script src="../wasm-script.js"></script>
+<wasm-script id="math" lang="wasp" compiler="../compilers/waspc/compiler.wasm">
      
     pub fn secret(){
         42
@@ -10,6 +10,6 @@
      // top-level await doesn't exist yet, so we have to do it the lame way
     (async function(){
         const mathModule = await document.getElementById("math").compile();
-        document.body.innerHTML = mathModule.secret(1);
+        mathModule.secret(1);
     })();
 </script>

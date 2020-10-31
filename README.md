@@ -65,7 +65,7 @@ A reference implementation compiler is in progress in Rust for the [`wasp`](http
 </script>
 ```
 
-See the demo [here](https://richardanaya.github.io/wasm-script/demo.html)
+See the demo [here](https://richardanaya.github.io/wasm-script/examples/demo.html)
 
 What the compiler is doing is fairly simple:
 
@@ -83,3 +83,46 @@ pub fn compile(code_ptr: usize) -> usize {
     })
 }
 ```
+
+# Exposing Browser Functionality
+
+Until we have DOM exposure in WebAssembly, we still are in a position we need to provide our own exposures to the browser's functionality. Luckily there's some pretty easy ways to do this.
+
+
+```html
+<script src="../wasm-script.js"></script>
+<wasm-script id="math" lang="wasp" compiler="../compilers/waspc/compiler.wasm">
+     
+    extern console_log(message)
+    pub fn main(){
+        console_log("hello world!")
+    }
+
+</wasm-script>
+<script>
+     // top-level await doesn't exist yet, so we have to do it the lame way
+    (async function(){
+        debugger;
+        const mathModule = await document.getElementById("math").compile({
+            console_log: function(message_start) {
+                let utf8dec = new TextDecoder("utf-8");
+                function fromCString(start) {
+                    const data = new Uint8Array(mathModule.memory.buffer);
+                    const str = [];
+                    let i = start;
+                    while (data[i] !== 0) {
+                    str.push(data[i]);
+                    i++;
+                    }
+                    return utf8dec.decode(new Uint8Array(str));
+                }
+                let _message = fromCString(message_start);
+                document.body.innerHTML += _message;
+              }
+        });
+        mathModule.main();
+    })();
+</script>
+```
+
+We can also use a library to make this even easier:
