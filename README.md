@@ -70,17 +70,16 @@ See the demo [here](https://richardanaya.github.io/wasm-script/demo.html)
 What the compiler is doing is fairly simple:
 
 ```rust
-fn compile(code_ptr: usize) -> usize {
-    let code = code_as_string(code_ptr);
+use wasm_compiler::{process,log};
+use wasp_core::{compiler, parser};
 
-    // we can send info to browser for help
-    log("compiling the code below!");
-    log(&code);
-
-    // TODO: write a real compiler
-    let wasm_bytes =  ...
-
-    &create_compiler_response(wasm_bytes) as *const _ as usize
+#[no_mangle]
+pub fn compile(code_ptr: usize) -> usize {
+    process(code_ptr, |code| {
+        log("compiling the code below!!");
+        log(&code);
+        let app = parser::parse(code)?;
+        Ok(compiler::compile(app)?)
+    })
 }
-
 ```
