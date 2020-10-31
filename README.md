@@ -15,14 +15,10 @@ This is a library for bringing your WebAssembly compiler to the web.
      }  
 
 </wasm-script>
-<wasm-script id="game" lang="python" src="tetris.python"></wasm-script>
 <script type="module">
      // Compile as a module for accelerating javascript
      const mathModule = await document.getElementById("math").compile();
      console.log(mathModule.add(2,2));
-     
-     // Or compile and run on it's own
-     document.getElementById("game").run();
 </script>
 ```
 
