@@ -32,7 +32,7 @@ This is a library for bringing your WebAssembly compiler to the web.
 A reference implementation compiler is in progress in Rust for the `wasp` programming language ( a simple lisp-like syntax language ). It's built using `watson` and `wci`.
 
 ```html
-<script src="https://unpkg.com/wasm-script@latest/wasm-script.min.js"></script>
+<script src="wasm-script.min.js"></script>
 <wasm-script id="math" lang="wasp" compiler="https://unpkg.com/gh/wasplang/wasp@latest/compiler.wasm">
      
      (extern add (a,b) (+ a b))

@@ -1,6 +1,11 @@
 <script src="wasm-script.js"></script>
-<wasm-script id="math"></wasm-script>
-<script type="module">
+<wasm-script id="math" lang="wasp" compiler="wasp.wasm">
+     
+     (extern add (a,b) (+ a b))
+
+</wasm-script>
+<script>
+     // top-level await doesn't exist yet, so we have to do it the lame way
     (async function(){
         const mathModule = await document.getElementById("math").compile();
         console.log(mathModule.add(2,2));
