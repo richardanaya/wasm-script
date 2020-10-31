@@ -7,13 +7,15 @@ This is a library for bringing your WebAssembly compiler to the web.
 ```html
 <script src="https://unpkg.com/wasm-script@latest/wasm-script.min.js"></script>
 <wasm-script id="math" lang="C" compiler="http://yourcompiler.com/c.wasm">
-extern int add(int a, int b){
-     return a+b;
-}  
+
+     extern int add(int a, int b){
+          return a+b;
+     }  
+     
 </wasm-script>
-<script>
-const mathModule = await document.getByID("math").compile();
-console.log(mathModule.add(2,2));
+<script type="module">
+     const mathModule = await document.getElementById("math").compile();
+     console.log(mathModule.add(2,2));
 </script>
 ```
 
@@ -30,10 +32,14 @@ A reference implementation compiler is in progress in Rust for the `wasp` progra
 ```html
 <script src="https://unpkg.com/wasm-script@latest/wasm-script.min.js"></script>
 <wasm-script id="math" lang="wasp" compiler="https://unpkg.com/gh/wasplang/wasp@latest/compiler.wasm">
-(extern add (a,b) (+ a b))
+     
+     (extern add (a,b) (+ a b))
+
 </wasm-script>
 <script>
-const mathModule = await document.getByID("math").compile();
-console.log(mathModule.add(2,2));
+    (async function(){
+        const mathModule = await document.getElementById("math").compile();
+        console.log(mathModule.add(2,2));
+    })()
 </script>
 ```

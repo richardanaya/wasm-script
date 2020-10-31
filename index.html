@@ -1,0 +1,8 @@
+<script src="wasm-script.js"></script>
+<wasm-script id="math"></wasm-script>
+<script type="module">
+    (async function(){
+        const mathModule = await document.getElementById("math").compile();
+        console.log(mathModule.add(2,2));
+    })()
+</script>
