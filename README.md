@@ -25,7 +25,7 @@ console.log(mathModule.add(2,2));
 
 # Reference Implementation
 
-A reference implementation compiler is in progress in Rust for the `wasp` programming language ( a simple lisp-like syntax language ).
+A reference implementation compiler is in progress in Rust for the `wasp` programming language ( a simple lisp-like syntax language ). It's built using `watson` and `wci`.
 
 ```html
 <script src="https://unpkg.com/wasm-script@latest/wasm-script.min.js"></script>
