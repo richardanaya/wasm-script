@@ -26,7 +26,8 @@ Or run stand alone
 
 ```html
 <script src="https://unpkg.com/wasm-script@latest/wasm-script.min.js"></script>
-<wasm-script id="game" lang="python" src="tetris.python" execute></wasm-script>
+<wasm-script lang="python" src="tetris.python" execute></wasm-script>
+<!-- use default compilers from the community for certain langauges -->
 ```
 
 # Features
