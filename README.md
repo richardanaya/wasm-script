@@ -61,9 +61,8 @@ See the demo [here](https://richardanaya.github.io/wasm-script/demo.html)
 
 What the compiler is doing is fairly simple:
 
-```
-#[no_mangle]
-pub extern "C" fn compile(codePtr: usize) -> usize {
+```rust
+fn compile(codePtr: usize) -> usize {
     let code = code_as_string(codePtr);
 
     // we can send info to browser for help
