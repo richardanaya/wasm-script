@@ -26,6 +26,13 @@ This is a library for bringing your WebAssembly compiler to the web.
 </script>
 ```
 
+Or run stand alone
+
+```html
+<script src="https://unpkg.com/wasm-script@latest/wasm-script.min.js"></script>
+<wasm-script id="game" lang="python" src="tetris.python" execute></wasm-script>
+```
+
 # Features
 
 - [x] script for loading a WebAssembly module from a compiler
