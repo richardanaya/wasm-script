@@ -11,7 +11,7 @@ This is a library for bringing your WebAssembly compiler to the web.
      extern int add(int a, int b){
           return a+b;
      }  
-     
+
 </wasm-script>
 <script type="module">
      const mathModule = await document.getElementById("math").compile();
@@ -37,9 +37,10 @@ A reference implementation compiler is in progress in Rust for the `wasp` progra
 
 </wasm-script>
 <script>
+     // top-level await doesn't exist yet, so we have to do it the lame way
     (async function(){
         const mathModule = await document.getElementById("math").compile();
         console.log(mathModule.add(2,2));
-    })()
+    })();
 </script>
 ```
