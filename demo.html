@@ -8,6 +8,6 @@
      // top-level await doesn't exist yet, so we have to do it the lame way
     (async function(){
         const mathModule = await document.getElementById("math").compile();
-        console.log(mathModule.add(2,2));
+        document.body.innerHTML = mathModule.add(2,2);
     })();
 </script>

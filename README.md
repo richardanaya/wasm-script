@@ -38,7 +38,7 @@ Or run stand alone
 
 # Reference Implementation
 
-A reference implementation compiler is in progress in Rust for the `wasp` programming language ( a simple lisp-like syntax language ). It's built using `watson` and `wci`.
+A reference implementation compiler is in progress in Rust for the `wasp` programming language ( a simple lisp-like syntax language ).
 
 ```html
 <script src="wasm-script.min.js"></script>
