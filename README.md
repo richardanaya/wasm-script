@@ -15,15 +15,19 @@ This is a library for bringing your WebAssembly compiler to the web.
      }  
 
 </wasm-script>
-<wasm-script id="game" lang="python" src="tetris.python"></wasm-script>
 <script type="module">
      // Compile as a module for accelerating javascript
      const mathModule = await document.getElementById("math").compile();
      console.log(mathModule.add(2,2));
-     
-     // Or compile and run on it's own
-     document.getElementById("game").run();
 </script>
+```
+
+Or run stand alone
+
+```html
+<script src="https://unpkg.com/wasm-script@latest/wasm-script.min.js"></script>
+<wasm-script lang="python" src="tetris.python" execute></wasm-script>
+<!-- use default compilers from the community for certain languages -->
 ```
 
 # Features
