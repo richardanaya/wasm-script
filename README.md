@@ -38,7 +38,7 @@ Or run stand alone
 # CDN 
 
 ```
-https://cdn.jsdelivr.net/gh/richardanaya/wasm-script@0.0.1/wasm-script.js
+https://cdn.jsdelivr.net/gh/richardanaya/wasm-script@latest/wasm-script.js
 ```
 
 # Reference Implementation
