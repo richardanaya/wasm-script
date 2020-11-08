@@ -27,23 +27,44 @@ class WasmScript extends HTMLElement {
     }
 
     connectedCallback() {
-        if (this.innerHTML === undefined) {
+        if (this.innerHTML == "" || this.innerHTML === undefined) {
             this.setup()
         } else {
             this.code = this.innerHTML;
             this.innerHTML = "";
+            const execute = this.getAttribute("execute");
+            if(execute !== null){
+                this.execute();
+            }
         }
     }
 
     childrenAvailableCallback() {
         this.code = this.innerHTML;
         this.innerHTML = "";
-        this.codeResolver(this.code)
+        if(this.codeResolver){
+            this.codeResolver(this.code)
+        }
+        const execute = this.getAttribute("execute");
+        if(execute !== null){
+            this.execute();
+        }
+    }
+
+    execute() {
+        (async ()=>{
+            let env = {};
+            if(WasmScriptComponents["js-wasm"]){
+                env = WasmScriptComponents["js-wasm"](env);
+            }
+            let module = await this.compile(env);
+            module.main();
+        })();
     }
 
     // https://stackoverflow.com/questions/48498581/textcontent-empty-in-connectedcallback-of-a-custom-htmlelement
     setup() {
-        self.parentNodes = []
+        this.parentNodes = []
         let el = this;
         while (el.parentNode) {
             el = el.parentNode
@@ -151,3 +172,5 @@ class WasmScript extends HTMLElement {
 }
 
 customElements.define('wasm-script', WasmScript);
+
+window.WasmScriptComponents = {};
