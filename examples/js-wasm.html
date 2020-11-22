@@ -1,9 +1,26 @@
 <script src="../wasm-script.js"></script>
 <script src="https://unpkg.com/js-wasm/js-wasm.js"></script>
-<wasm-script lang="wasp" compiler="../compilers/waspc/compiler.wasm" js-wasm execute>
+<wasm-script lang="wat" compiler="../compilers/watc/compiler.wasm" js-wasm execute>
      
-    pub fn main(){
-        42
-    }
+    (module
+  (type $t0 (func))
+  (type $t1 (func (param f64 f64) (result f64)))
+  (type $t2 (func (param f64 f64 f64) (result f64)))
+  (import "env" "js_register_function" (func $js_register_function (type $t1)))
+  (import "env" "js_invoke_function" (func $js_invoke_function (type $t2)))
+  (func $main (export "main") (type $t0)
+    i32.const 1024
+    f64.convert_u/i32
+    f64.const 0x1.bp+6 (;=108;)
+    call $js_register_function
+    i32.const 1132
+    f64.convert_u/i32
+    f64.const 0x1.8p+3 (;=12;)
+    call $js_invoke_function
+    drop)
+  (table $T0 1 1 anyfunc)
+  (memory $memory (export "memory") 17)
+  (data (i32.const 1024) "function(strPtr,strLen){\0a                console.log(this.readUtf8FromMemory(strPtr,strLen)); \0a            }Hello World!"))
+
 
 </wasm-script>

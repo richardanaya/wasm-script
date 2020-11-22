@@ -1,4 +1,4 @@
-class WasmScript extends HTMLElement {
+class WasmScript extends HTMLElement {  
     constructor() {
         super();
         this.utf8dec = new TextDecoder("utf-8");
@@ -58,6 +58,7 @@ class WasmScript extends HTMLElement {
                 env = WasmScriptComponents["js-wasm"](env);
             }
             let module = await this.compile(env);
+            env.context.module = {instance:{exports:module}};
             module.main();
         })();
     }
