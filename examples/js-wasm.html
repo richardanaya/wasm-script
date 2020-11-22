@@ -1,7 +1,7 @@
 <script src="../wasm-script.js"></script>
 <script src="https://unpkg.com/js-wasm/js-wasm.js"></script>
 <wasm-script lang="wat" compiler="../compilers/watc/compiler.wasm" js-wasm execute>
-  (module
+(module
   (type $t0 (func))
   (type $t1 (func (param f64 f64) (result f64)))
   (type $t2 (func (param f64 f64 f64) (result f64)))
@@ -14,10 +14,10 @@
     call $js_register_function
     i32.const 1145
     f64.convert_u/i32
-    f64.const 0x1.4p+6 (;=80;)
+    f64.const 0x1.82p+7 (;=193;)
     call $js_invoke_function
     drop)
   (table $T0 1 1 anyfunc)
   (memory $memory (export "memory") 17)
-  (data (i32.const 1024) "function(strPtr,strLen){\0a                document.body.innerHTML = this.readUtf8FromMemory(strPtr,strLen); \0a            }Hello World from WAT! View the HTML source to see where this message comes from."))
+  (data (i32.const 1024) "function(strPtr,strLen){\0a                document.body.innerHTML = this.readUtf8FromMemory(strPtr,strLen); \0a            }Hello World from WAT! A WebAssembly module was compiled in your browser from WAT and loaded with access to your browser. View the HTML source to see where this message's source code comes from."))
 </wasm-script>
