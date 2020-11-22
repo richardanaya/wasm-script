@@ -2,9 +2,9 @@
 # It is not intended for manual editing.
 [[package]]
 name = "cstring"
-version = "0.0.4"
+version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f59de94c81f8ba8b78c997112fa1efdff7d52829e026ce2671bf6ad9b738a29f"
+checksum = "4592a21c5c6db349be8e91c73c3a1a35df87348f2f1f732d1bf6642e425ead3c"
 dependencies = [
  "cty",
  "memchr",
@@ -24,7 +24,7 @@ checksum = "0ee1c47aaa256ecabcaea351eae4a9b01ef39ed810004e298d2511ed284b1525"
 
 [[package]]
 name = "wasm-compiler"
-version = "0.1.0"
+version = "0.0.0"
 dependencies = [
  "cstring",
 ]

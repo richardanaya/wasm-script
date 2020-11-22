@@ -1,10 +1,14 @@
 [package]
 name = "wasm-compiler"
-version = "0.1.0"
-authors = ["Richard <Richard>"]
+version = "0.0.0"
+authors = ["Richard Anaya"]
 edition = "2018"
+description = "A base for making a compiler in WebAssembly"
+license = "MIT OR Apache-2.0"
+categories = ["wasm", "no-std", "compiler"]
+repository = "https://github.com/richardanaya/wasm-script"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cstring = "0.0"
+cstring = "0.1.1"

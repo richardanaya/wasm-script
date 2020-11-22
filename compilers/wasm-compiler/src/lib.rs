@@ -1,20 +1,22 @@
-use cstring::{cstr, cstr_to_string, CString};
-use std::error::Error;
+#![no_std]
+extern crate alloc;
+use alloc::string::String;
+use alloc::vec::Vec;
 
 extern "C" {
-    fn compiler_error(err: CString) -> !;
-    fn compiler_log(err: CString);
+    fn compiler_error(err: usize) -> !;
+    fn compiler_log(err: usize);
 }
 
 pub fn throw_error(err: &str) -> ! {
     unsafe {
-        compiler_error(cstr(err));
+        compiler_error(cstring::from_str(err));
     };
 }
 
 pub fn log(msg: &str) {
     unsafe {
-        compiler_log(cstr(msg));
+        compiler_log(cstring::from_str(msg));
     }
 }
 
@@ -26,13 +28,9 @@ pub extern "C" fn malloc(size: i32) -> *mut u8 {
     ptr
 }
 
-fn code_as_string(code_ptr: usize) -> String {
-    cstr_to_string(code_ptr as i32)
-}
-
 fn create_compiler_response(wasm_bytes: Vec<u8>) -> Vec<u8> {
     let l = wasm_bytes.len() as u32;
-    let len_bytes: [u8; 4] = unsafe { std::mem::transmute(l) };
+    let len_bytes: [u8; 4] = unsafe { core::mem::transmute(l) };
     let mut v = Vec::<u8>::new();
     v.extend(len_bytes.iter());
     v.extend(wasm_bytes.iter());
@@ -41,12 +39,16 @@ fn create_compiler_response(wasm_bytes: Vec<u8>) -> Vec<u8> {
 
 pub fn process<T>(code_ptr: usize, processor: T) -> usize
 where
-    T: Fn(&str) -> Result<Vec<u8>, Box<dyn Error>>,
+    T: Fn(&str) -> Result<Vec<u8>, String>,
 {
-    let code = code_as_string(code_ptr);
-    let wasm_bytes = match processor(&code) {
-        Ok(b) => b,
-        Err(e) => throw_error(&e.to_string()),
-    };
-    &create_compiler_response(wasm_bytes) as *const _ as usize
+    match cstring::try_into_string(code_ptr) {
+        Ok(code) => {
+            let wasm_bytes = match processor(&code) {
+                Ok(b) => b,
+                Err(e) => throw_error(&e),
+            };
+            &create_compiler_response(wasm_bytes) as *const _ as usize
+        }
+        Err(e) => throw_error(&e),
+    }
 }
