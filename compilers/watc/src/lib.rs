@@ -1,4 +1,4 @@
-use wasm_compiler::{log, process};
+use wasm_compiler::process;
 
 #[no_mangle]
 pub fn compile(code_ptr: usize) -> usize {
